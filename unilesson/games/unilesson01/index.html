@@ -28,12 +28,14 @@
 
     const script = document.createElement("script");
     script.src = loaderUrl;
-    script.onload = () => {
-        createUnityInstance(config.canvas, config).catch(err => {
-        document.querySelector("#loading").textContent = "エラーが発生しました";
-        console.error(err);
-        });
-    };
+        script.onload = () => {
+            createUnityInstance(config.canvas, config).then(() => {
+                document.querySelector("#loading").style.display = "none";
+            }).catch(err => {
+                document.querySelector("#loading").textContent = "エラーが発生しました";
+                console.error(err);
+            });
+        };
     document.body.appendChild(script);
     </script>
 </body>
