@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Title - Portfolio</title>
+    <!-- ドット絵風フォント（DotGothic16） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+</head>
+<body>
+
+    <header class="pixel-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="logo">GameDev<span class="text-accent">.log</span></a>
+            <nav>
+                <ul>
+                    <li><a href="../index.html#portfolio">Games</a></li>
+                    <li><a href="../index.html#blog">Note Blogs</a></li>
+                    <li><button class="theme-toggle" id="themeToggle">🌙 Dark</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="game-hero reveal-up">
+        <div class="container">
+            <div class="game-hero-content">
+                <span class="card-tag tag-unity">Unity</span>
+                <h1 class="game-title">【テンプレート】ゲームタイトル</h1>
+                <p class="game-catchphrase">ここにゲームの魅力やキャッチコピーを一行で書きます。</p>
+                
+                <div class="game-actions">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="play-btn">
+                        ▶ Play on unityroom
+                    </a>
+                </div>
+            </div>
+            
+            <div class="game-main-visual" id="mainVisual">
+                <div class="placeholder-image">Main Visual (1200x630)</div>
+            </div>
+
+            <!-- 横スクロールできるスクリーンショットギャラリー -->
+            <div class="screenshot-gallery">
+                <div class="screenshot bg-unity">
+                    <div class="placeholder-image">Screenshot 1</div>
+                </div>
+                <div class="screenshot bg-godot">
+                    <div class="placeholder-image">Screenshot 2</div>
+                </div>
+                <div class="screenshot bg-unity">
+                    <div class="placeholder-image">Screenshot 3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="game-details reveal-up">
+        <div class="container">
+            <div class="details-grid">
+                
+                <div class="details-main">
+                    <h2 class="section-title">Overview</h2>
+                    <div class="pixel-box content-card">
+                        <p>
+                            ここにゲームの詳しい説明を書きます。どのようなルールのゲームなのか、どういった点にこだわって開発したのかを記載します。
+                        </p>
+                        <h3>Features</h3>
+                        <ul class="feature-list">
+                            <li>特徴1: 物理演算を使ったリアルな挙動</li>
+                            <li>特徴2: スマホとPCの両対応</li>
+                            <li>特徴3: カスタムシェーダーによる独特なビジュアル</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="details-sidebar">
+                    <h2 class="section-title">Info</h2>
+                    <div class="pixel-box spec-card">
+                        <ul>
+                            <li><strong>Engine:</strong> Unity 2022.3</li>
+                            <li><strong>Language:</strong> C#</li>
+                            <li><strong>Genre:</strong> Action / Puzzle</li>
+                            <li><strong>Release:</strong> 2026.04.15</li>
+                            <li><strong>Play Time:</strong> 約5分</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Your Name. Game Developer Portfolio.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

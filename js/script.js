@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 articleElement.target = '_blank';
                 articleElement.rel = 'noopener noreferrer';
                 // フィルタリング用にクラスと data-category をセット
-                articleElement.className = 'blog-item glass-card';
+                articleElement.className = 'blog-item';
                 articleElement.setAttribute('data-category', category.id);
 
                 // カードの中身のHTMLをセット
@@ -216,5 +216,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ページの準備ができたら関数を呼び出してデータ取得を開始
     fetchNoteArticles();
+
+    /* =========================================================================
+       5. ギャラリーの画像切り替え機能 (Game Detail Page)
+       ========================================================================= */
+    const mainVisual = document.querySelector('.game-main-visual');
+    const thumbnails = document.querySelectorAll('.screenshot');
+
+    if (mainVisual && thumbnails.length > 0) {
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                // クリックされたサムネイルの中身（imgタグやテキスト）を
+                // メインビジュアルの中にそのままコピーする
+                mainVisual.innerHTML = thumb.innerHTML;
+                
+                // サムネイルに独自の背景色クラス(bg-unity等)があれば、メインにも引き継ぐ
+                mainVisual.className = 'game-main-visual'; // 基本クラスにリセット
+                thumb.classList.forEach(cls => {
+                    if (cls.startsWith('bg-')) {
+                        mainVisual.classList.add(cls);
+                    }
+                });
+                
+                // メインビジュアルに少しだけアニメーションをつけて切り替わった感を出す
+                mainVisual.style.opacity = '0.5';
+                setTimeout(() => {
+                    mainVisual.style.opacity = '1';
+                    mainVisual.style.transition = 'opacity 0.3s ease';
+                }, 50);
+            });
+        });
+    }
 
 });

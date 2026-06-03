@@ -1,30 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
 /* --- CSS変数（カラートークン）の定義 --- 
- * 全体で使用する色をまとめて管理します。
- * data-theme="dark" でダークモードの変数が適用されます。
+ * 森の緑色を基調としたパステルカラーのドット絵風デザイン
  */
- :root[data-theme="light"] {
-    --bg-color: #f8fafc;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --accent-color: #6366f1; /* 鮮やかなインディゴブルー */
-    --accent-glow: rgba(99, 102, 241, 0.4);
+:root[data-theme="light"] {
+    --bg-color: #f2fae8; /* 淡いパステルグリーン（背景） */
+    --text-main: #2c3e2e; /* 濃いめの森の緑（文字色） */
+    --text-muted: #5a7d5a;
     
-    /* グラスモーフィズム用（すりガラス効果）の背景色と境界線 */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.4);
-    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+    --accent-color: #72c572; /* メインの森の緑 */
+    --accent-hover: #5db05d;
+    
+    --box-bg: #ffffff; /* カードの背景色 */
+    --box-border: #2c3e2e; /* ドット絵風の黒に近い緑のフチ */
+    
+    /* ピクセル風の影（ぼかし0のソリッドな影） */
+    --pixel-shadow: 4px 4px 0px #2c3e2e;
+    
+    /* カテゴリカラー（パステル） */
+    --color-unity: #a8d8ea; /* パステルブルー */
+    --color-godot: #ffb7b2; /* パステルピンク */
 }
 
+/* ダークモード時の配色 */
 :root[data-theme="dark"] {
-    --bg-color: #0f172a;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-color: #8b5cf6; /* 鮮やかなバイオレット */
-    --accent-glow: rgba(139, 92, 246, 0.4);
-    
-    --glass-bg: rgba(30, 41, 59, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.05);
-    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --bg-color: #1a241b; /* 深い森の緑 */
+    --text-main: #f2fae8;
+    --text-muted: #a4cfa4;
+    --accent-color: #5db05d;
+    --box-bg: #2c3e2e;
+    --box-border: #f2fae8; /* フチは白に */
+    --pixel-shadow: 4px 4px 0px #72c572; /* 影は明るい緑 */
 }
 
 /* --- リセット & 共通スタイル --- */
@@ -35,19 +41,16 @@
 }
 
 body {
-    /* Google Fontsの適用。基本はInter、見出しはOutfit */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* ドット絵風の日本語フォントを適用 */
+    font-family: 'DotGothic16', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
-    /* 背景色や文字色がテーマ変更時に滑らかに変わるようにトランジションを設定 */
-    transition: background-color 0.4s ease, color 0.4s ease;
     overflow-x: hidden;
-    position: relative;
-}
-
-h1, h2, h3, .logo {
-    font-family: 'Outfit', sans-serif;
+    /* ドット柄の背景パターン */
+    background-image: radial-gradient(var(--text-muted) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
 }
 
 a {
@@ -62,59 +65,37 @@ a {
 }
 
 section {
-    padding: 100px 0;
-    position: relative;
-    z-index: 1; /* 背景の光の上にコンテンツが来るようにする */
+    padding: 80px 0;
 }
 
-/* アクセントカラー用のクラス */
 .text-accent {
     color: var(--accent-color);
+    font-weight: bold;
 }
 
-/* --- 背景のアニメーションする光（グラデーション） --- */
-.bg-glow {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none; /* クリックを邪魔しないようにする */
-    filter: blur(60px);
-    opacity: 0.6;
+/* --- ピクセル風ボックス（共通カードデザイン） --- */
+.pixel-box {
+    background-color: var(--box-bg);
+    border: 4px solid var(--box-border);
+    box-shadow: var(--pixel-shadow);
+    border-radius: 0; /* ドット絵風なので角丸はなし */
 }
 
-.bg-glow-1 {
-    top: -100px;
-    left: -200px;
-    animation: float 10s infinite alternate ease-in-out;
-}
-
-.bg-glow-2 {
-    bottom: 20%;
-    right: -150px;
-    animation: float 12s infinite alternate-reverse ease-in-out;
-}
-
-/* 光がフワフワと漂うアニメーション */
-@keyframes float {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-}
-
-/* --- ヘッダー（グラスモーフィズム） --- */
-.glass-header {
+/* --- ヘッダー --- */
+.pixel-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    /* backdrop-filterですりガラス効果を実現します */
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px); /* Safari対応 */
-    border-bottom: 1px solid var(--glass-border);
+    background-color: var(--accent-color);
+    border-bottom: 4px solid var(--box-border);
     padding: 15px 0;
-    transition: background 0.4s, border-color 0.4s;
+    color: #fff;
+    box-shadow: 0 4px 0px var(--box-border);
+}
+
+.pixel-header .text-accent {
+    color: #ffffaa; /* ヘッダー内では黄色に */
+    text-shadow: 2px 2px 0 var(--box-border);
 }
 
 .header-inner {
@@ -124,9 +105,8 @@ section {
 }
 
 .logo {
-    font-weight: 800;
     font-size: 1.5rem;
-    letter-spacing: -0.5px;
+    text-shadow: 2px 2px 0 var(--box-border);
 }
 
 nav ul {
@@ -137,168 +117,157 @@ nav ul {
 }
 
 nav a {
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.3s;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 0 var(--box-border);
 }
 
 nav a:hover {
-    color: var(--accent-color);
+    color: #ffffaa;
 }
 
 .theme-toggle {
-    background: transparent;
-    border: 1px solid var(--text-muted);
+    background: var(--box-bg);
+    border: 3px solid var(--box-border);
     color: var(--text-main);
-    padding: 6px 16px;
-    border-radius: 20px;
+    padding: 4px 12px;
     cursor: pointer;
-    font-size: 0.85rem;
     font-family: inherit;
-    transition: all 0.3s;
+    box-shadow: 2px 2px 0 var(--box-border);
 }
 
-.theme-toggle:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+.theme-toggle:active {
+    /* 押し込んだようなアニメーション */
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--box-border);
 }
 
 /* --- ヒーローセクション --- */
 .hero {
     text-align: center;
-    padding: 120px 0 80px;
+    padding: 80px 0 60px;
+    background-color: var(--box-bg);
+    border-bottom: 4px solid var(--box-border);
+    box-shadow: 0 4px 0 var(--box-border);
+    margin-bottom: 40px;
 }
 
 .hero-title {
-    font-size: 3.5rem;
-    line-height: 1.1;
+    font-size: 2.8rem;
+    line-height: 1.3;
     margin-bottom: 20px;
-    font-weight: 800;
+    text-shadow: 2px 2px 0 var(--accent-color);
 }
 
 .hero-subtitle {
-    color: var(--text-muted);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     max-width: 600px;
     margin: 0 auto;
+    background: var(--bg-color);
+    padding: 10px;
+    border: 2px dashed var(--box-border);
 }
 
-/* --- 共通コンポーネント --- */
+/* --- 共通見出し --- */
 .section-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     margin-bottom: 30px;
-}
-
-/* 汎用のグラスモーフィズムカード 
- * 枠線を少し明るくし、半透明の背景とぼかしを適用しています
- */
-.glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
-    /* ホバー時のアニメーションのためのトランジション */
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, border-color 0.3s, opacity 0.4s, transform 0.4s;
-}
-
-.glass-card:hover {
-    transform: translateY(-5px); /* ホバー時に少し浮き上がる */
-    box-shadow: 0 12px 40px 0 var(--accent-glow);
-    border-color: var(--accent-color);
+    display: inline-block;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 5px 15px;
+    border: 4px solid var(--box-border);
+    box-shadow: var(--pixel-shadow);
 }
 
 /* --- フィルターボタン --- */
 .filter-wrapper {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 30px;
     flex-wrap: wrap;
 }
 
 .filter-btn {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--box-bg);
+    border: 4px solid var(--box-border);
     color: var(--text-main);
     padding: 8px 20px;
-    border-radius: 30px;
     cursor: pointer;
     font-family: inherit;
-    font-weight: 500;
-    transition: all 0.3s;
+    font-size: 1.1rem;
+    box-shadow: var(--pixel-shadow);
 }
 
 .filter-btn:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+    background: var(--bg-color);
 }
 
 .filter-btn.active {
     background: var(--accent-color);
     color: #fff;
-    border-color: var(--accent-color);
-    box-shadow: 0 4px 15px var(--accent-glow);
 }
 
-/* JS用フィルタリングクラス。滑らかに消えるようにする */
+.filter-btn:active, .filter-btn.active {
+    /* 押し込んだ状態 */
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--box-border);
+}
+
+/* JS用フィルタリングクラス */
 .card-hidden {
-    opacity: 0;
-    transform: scale(0.95);
-    pointer-events: none;
-    position: absolute; /* 要素が消えた後にレイアウトの隙間を詰めるため */
+    display: none !important; /* ピクセル風はパッと切り替わる方がレトロで良い */
 }
 
 /* --- ポートフォリオグリッド --- */
 .portfolio-grid {
     display: grid;
-    /* 画面幅に応じて自動で列数を調整する設定 */
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    position: relative; /* 子要素のposition: absoluteの基準 */
 }
 
 .card {
-    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-/* サムネイル画像のプレースホルダー */
+.card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px var(--box-border);
+}
+
 .card-image {
     height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-weight: bold;
+    color: var(--text-main);
     font-size: 1.2rem;
+    border-bottom: 4px solid var(--box-border);
 }
 
-/* エンジンごとのグラデーション色設定 */
-.bg-unity { background: linear-gradient(135deg, #222c37, #4a5b6d); }
-.bg-godot { background: linear-gradient(135deg, #478cbf, #2b5c82); }
+.bg-unity { background-color: var(--color-unity); }
+.bg-godot { background-color: var(--color-godot); }
 
 .card-content {
-    padding: 25px;
+    padding: 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    background: var(--box-bg);
 }
 
 .card-tag {
-    font-size: 0.75rem;
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    padding: 2px 8px;
+    border: 2px solid var(--box-border);
     display: inline-block;
     margin-bottom: 15px;
-    font-weight: 600;
     align-self: flex-start;
 }
 
-.tag-unity { background-color: #222c37; }
-.tag-godot { background-color: #478cbf; }
+.tag-unity { background-color: var(--color-unity); }
+.tag-godot { background-color: var(--color-godot); }
 
 .card h3 {
     font-size: 1.4rem;
@@ -306,26 +275,28 @@ nav a:hover {
 }
 
 .card p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 20px;
     flex-grow: 1;
 }
 
 .card-link {
-    color: var(--accent-color);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: inline-block;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 8px 15px;
+    border: 3px solid var(--box-border);
+    text-align: center;
+    box-shadow: 2px 2px 0 var(--box-border);
 }
 
-.card-link .arrow {
-    transition: transform 0.3s;
+.card-link:hover {
+    background: var(--accent-hover);
 }
 
-.card:hover .card-link .arrow {
-    transform: translateX(5px); /* 右に少し動く矢印アニメーション */
+.card-link:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--box-border);
 }
 
 /* --- ブログリスト (Note) --- */
@@ -336,98 +307,257 @@ nav a:hover {
 .blog-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    position: relative;
+    gap: 20px;
 }
 
 .blog-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
-    text-decoration: none;
-    /* opacity と transform はフィルタリングのアニメーション用 */
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, opacity 0.4s;
+    padding: 15px 20px;
+    cursor: pointer;
+    background: var(--box-bg);
+    border: 4px solid var(--box-border);
+    box-shadow: var(--pixel-shadow);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.blog-item:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px var(--box-border);
+    background: var(--color-unity); /* ホバー時にパステル色に */
 }
 
 .blog-content h3 {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     margin-bottom: 8px;
-    transition: color 0.3s;
-}
-
-.blog-item:hover .blog-content h3 {
-    color: var(--accent-color);
 }
 
 .blog-meta {
     display: flex;
     gap: 15px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-/* 右上の矢印アイコン */
 .blog-icon {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    transition: transform 0.3s, color 0.3s;
-}
-
-.blog-item:hover .blog-icon {
-    color: var(--accent-color);
-    transform: translate(3px, -3px); /* 右上に飛ぶようなアニメーション */
-}
-
-/* --- フッター --- */
-footer {
-    text-align: center;
-    padding: 50px 0;
-    color: var(--text-muted);
-    border-top: 1px solid var(--glass-border);
-    position: relative;
-    z-index: 1;
-}
-
-/* --- スクロールアニメーション用のクラス ---
- * JavaScriptのIntersection Observerと連携して動きます。
- */
-.reveal-up {
-    opacity: 0;
-    transform: translateY(30px); /* 最初は少し下にずらしておく */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.reveal-up.active {
-    opacity: 1;
-    transform: translateY(0); /* クラスが付いたら元の位置へ戻る */
-}
-
-/* --- スマホ対応 (レスポンシブデザイン) --- */
-@media (max-width: 768px) {
-    .hero-title { font-size: 2.5rem; }
-    nav ul { gap: 15px; }
-    .portfolio-grid { grid-template-columns: 1fr; }
+    font-size: 1.5rem;
 }
 
 /* --- ローディングスピナー --- */
 .loading-message {
     text-align: center;
     padding: 40px;
-    color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 1.2rem;
+    background: var(--box-bg);
+    border: 4px dashed var(--box-border);
 }
 
 .spinner {
     width: 30px;
     height: 30px;
-    border: 3px solid var(--glass-border);
+    border: 4px solid var(--box-border);
     border-top-color: var(--accent-color);
-    border-radius: 50%;
     margin: 0 auto 15px;
-    animation: spin 1s linear infinite;
+    animation: spin 1s steps(8, end) infinite; /* カクカク回る */
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* --- フッター --- */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    background: var(--accent-color);
+    color: #fff;
+    border-top: 4px solid var(--box-border);
+    margin-top: 50px;
+}
+
+/* =========================================================================
+   5. ゲーム詳細ページ (Game Detail Page) 専用スタイル
+   ========================================================================= */
+
+.game-hero {
+    padding: 40px 0;
+}
+
+.game-hero-content {
+    text-align: center;
+    margin-bottom: 30px;
+    background: var(--box-bg);
+    border: 4px solid var(--box-border);
+    padding: 30px;
+    box-shadow: var(--pixel-shadow);
+}
+
+.game-title {
+    font-size: 2.2rem;
+    margin: 15px 0;
+}
+
+.play-btn {
+    display: inline-block;
+    background: #ffb7b2; /* パステルレッド/ピンク */
+    color: var(--text-main);
+    padding: 12px 30px;
+    border: 4px solid var(--box-border);
+    font-size: 1.3rem;
+    box-shadow: var(--pixel-shadow);
+    margin-top: 15px;
+}
+
+.play-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--box-border);
+}
+
+.game-main-visual {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 4px solid var(--box-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-unity); 
+    box-shadow: var(--pixel-shadow);
+}
+
+.game-main-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* スクリーンショットギャラリー（横スクロール） */
+.screenshot-gallery {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 15px 0 20px;
+    scroll-snap-type: x mandatory;
+    background: var(--box-bg);
+    border: 4px solid var(--box-border);
+    box-shadow: var(--pixel-shadow);
+    margin-top: 30px;
+}
+
+.screenshot-gallery::-webkit-scrollbar {
+    height: 12px;
+}
+.screenshot-gallery::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-top: 4px solid var(--box-border);
+}
+.screenshot-gallery::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border: 2px solid var(--box-border);
+}
+
+.screenshot {
+    flex: 0 0 40%;
+    max-width: 300px;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--box-border);
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: var(--color-godot); 
+    margin-left: 15px;
+}
+.screenshot:last-child {
+    margin-right: 15px;
+}
+
+.screenshot:hover {
+    background: #fff; 
+    transform: scale(1.05);
+}
+
+.screenshot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 詳細レイアウト（2カラム） */
+.details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.content-card {
+    padding: 25px;
+}
+
+.content-card h3 {
+    margin: 25px 0 10px;
+    background: var(--accent-color);
+    color: #fff;
+    display: inline-block;
+    padding: 2px 10px;
+    border: 2px solid var(--box-border);
+}
+
+.feature-list {
+    list-style-type: none;
+}
+
+.feature-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 8px;
+}
+
+.feature-list li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #ffb7b2; 
+}
+
+/* 右サイドバーのスペック情報 */
+.spec-card {
+    padding: 20px;
+}
+
+.spec-card ul {
+    list-style: none;
+}
+
+.spec-card li {
+    padding: 10px 0;
+    border-bottom: 2px dashed var(--box-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.spec-card li:last-child {
+    border-bottom: none;
+}
+
+/* スクロールアニメーション（ドット風に少しカクっと出す） */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal-up.active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s steps(3), transform 0.2s steps(3);
+}
+
+@media (max-width: 900px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    .screenshot {
+        flex: 0 0 80%;
+    }
 }

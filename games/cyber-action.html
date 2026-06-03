@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Dサイバーアクション - Portfolio</title>
+    <!-- ドット絵風フォント（DotGothic16） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+</head>
+<body>
+
+    <header class="pixel-header">
+        <div class="container header-inner">
+            <a href="../index.html" class="logo">GameDev<span class="text-accent">.log</span></a>
+            <nav>
+                <ul>
+                    <li><a href="../index.html#portfolio">Games</a></li>
+                    <li><a href="../index.html#blog">Note Blogs</a></li>
+                    <li><button class="theme-toggle" id="themeToggle">🌙 Dark</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="game-hero reveal-up">
+        <div class="container">
+            <div class="game-hero-content">
+                <span class="card-tag tag-unity">Unity</span>
+                <h1 class="game-title">3Dサイバーアクションゲーム</h1>
+                <p class="game-catchphrase">ネオン輝くサイバーパンク都市を駆け抜ける、ハイスピード3Dアクション！</p>
+                
+                <div class="game-actions">
+                    <a href="https://unityroom.com/" target="_blank" rel="noopener noreferrer" class="play-btn">
+                        ▶ Play on unityroom
+                    </a>
+                </div>
+            </div>
+            
+            <div class="game-main-visual bg-unity" id="mainVisual">
+                <div class="placeholder-image">Main Visual (Cyber Action)</div>
+            </div>
+
+            <div class="screenshot-gallery">
+                <div class="screenshot bg-unity">
+                    <div class="placeholder-image">Screenshot 1 (Play)</div>
+                </div>
+                <div class="screenshot bg-godot">
+                    <div class="placeholder-image">Screenshot 2 (Title)</div>
+                </div>
+                <div class="screenshot bg-unity">
+                    <div class="placeholder-image">Screenshot 3 (Result)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="game-details reveal-up">
+        <div class="container">
+            <div class="details-grid">
+                
+                <div class="details-main">
+                    <h2 class="section-title">Overview</h2>
+                    <div class="pixel-box content-card">
+                        <p>
+                            C#を使用して制作したハイスピード3Dアクションです。物理演算を用いた爽快な挙動が特徴で、プレイヤーはサイバーパンクな都市を舞台に障害物を避けながらゴールを目指します。<br><br>
+                            開発のテーマとして「いかにプレイヤーが気持ちよく操作できるか」に注力し、カメラワークやジャンプの慣性などを細かく調整しました。
+                        </p>
+                        <h3>Features</h3>
+                        <ul class="feature-list">
+                            <li>物理演算を使った滑らかで直感的な操作感</li>
+                            <li>ポストプロセッシングによるサイバーパンクの表現</li>
+                            <li>オリジナルC#スクリプトによるダイナミックなカメラ追従</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="details-sidebar">
+                    <h2 class="section-title">Info</h2>
+                    <div class="pixel-box spec-card">
+                        <ul>
+                            <li><strong>Engine:</strong> Unity 2022.3</li>
+                            <li><strong>Language:</strong> C#</li>
+                            <li><strong>Genre:</strong> 3D Action</li>
+                            <li><strong>Platform:</strong> WebGL (unityroom)</li>
+                            <li><strong>Release:</strong> 2026.02.10</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Your Name. Game Developer Portfolio.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
