@@ -1,0 +1,433 @@
+/* --- CSS変数（カラートークン）の定義 --- 
+ * 全体で使用する色をまとめて管理します。
+ * data-theme="dark" でダークモードの変数が適用されます。
+ */
+ :root[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent-color: #6366f1; /* 鮮やかなインディゴブルー */
+    --accent-glow: rgba(99, 102, 241, 0.4);
+    
+    /* グラスモーフィズム用（すりガラス効果）の背景色と境界線 */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+:root[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-color: #8b5cf6; /* 鮮やかなバイオレット */
+    --accent-glow: rgba(139, 92, 246, 0.4);
+    
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- リセット & 共通スタイル --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Google Fontsの適用。基本はInter、見出しはOutfit */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    /* 背景色や文字色がテーマ変更時に滑らかに変わるようにトランジションを設定 */
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+    position: relative;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Outfit', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1; /* 背景の光の上にコンテンツが来るようにする */
+}
+
+/* アクセントカラー用のクラス */
+.text-accent {
+    color: var(--accent-color);
+}
+
+/* --- 背景のアニメーションする光（グラデーション） --- */
+.bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none; /* クリックを邪魔しないようにする */
+    filter: blur(60px);
+    opacity: 0.6;
+}
+
+.bg-glow-1 {
+    top: -100px;
+    left: -200px;
+    animation: float 10s infinite alternate ease-in-out;
+}
+
+.bg-glow-2 {
+    bottom: 20%;
+    right: -150px;
+    animation: float 12s infinite alternate-reverse ease-in-out;
+}
+
+/* 光がフワフワと漂うアニメーション */
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* --- ヘッダー（グラスモーフィズム） --- */
+.glass-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* backdrop-filterですりガラス効果を実現します */
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari対応 */
+    border-bottom: 1px solid var(--glass-border);
+    padding: 15px 0;
+    transition: background 0.4s, border-color 0.4s;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+nav a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent-color);
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-main);
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* --- ヒーローセクション --- */
+.hero {
+    text-align: center;
+    padding: 120px 0 80px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- 共通コンポーネント --- */
+.section-title {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+}
+
+/* 汎用のグラスモーフィズムカード 
+ * 枠線を少し明るくし、半透明の背景とぼかしを適用しています
+ */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    /* ホバー時のアニメーションのためのトランジション */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, border-color 0.3s, opacity 0.4s, transform 0.4s;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px); /* ホバー時に少し浮き上がる */
+    box-shadow: 0 12px 40px 0 var(--accent-glow);
+    border-color: var(--accent-color);
+}
+
+/* --- フィルターボタン --- */
+.filter-wrapper {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.filter-btn.active {
+    background: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+/* JS用フィルタリングクラス。滑らかに消えるようにする */
+.card-hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    position: absolute; /* 要素が消えた後にレイアウトの隙間を詰めるため */
+}
+
+/* --- ポートフォリオグリッド --- */
+.portfolio-grid {
+    display: grid;
+    /* 画面幅に応じて自動で列数を調整する設定 */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    position: relative; /* 子要素のposition: absoluteの基準 */
+}
+
+.card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* サムネイル画像のプレースホルダー */
+.card-image {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* エンジンごとのグラデーション色設定 */
+.bg-unity { background: linear-gradient(135deg, #222c37, #4a5b6d); }
+.bg-godot { background: linear-gradient(135deg, #478cbf, #2b5c82); }
+
+.card-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-tag {
+    font-size: 0.75rem;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+.tag-unity { background-color: #222c37; }
+.tag-godot { background-color: #478cbf; }
+
+.card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card-link {
+    color: var(--accent-color);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.card-link .arrow {
+    transition: transform 0.3s;
+}
+
+.card:hover .card-link .arrow {
+    transform: translateX(5px); /* 右に少し動く矢印アニメーション */
+}
+
+/* --- ブログリスト (Note) --- */
+.section-header {
+    margin-bottom: 10px;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.blog-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    text-decoration: none;
+    /* opacity と transform はフィルタリングのアニメーション用 */
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, opacity 0.4s;
+}
+
+.blog-content h3 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    transition: color 0.3s;
+}
+
+.blog-item:hover .blog-content h3 {
+    color: var(--accent-color);
+}
+
+.blog-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* 右上の矢印アイコン */
+.blog-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.3s, color 0.3s;
+}
+
+.blog-item:hover .blog-icon {
+    color: var(--accent-color);
+    transform: translate(3px, -3px); /* 右上に飛ぶようなアニメーション */
+}
+
+/* --- フッター --- */
+footer {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--text-muted);
+    border-top: 1px solid var(--glass-border);
+    position: relative;
+    z-index: 1;
+}
+
+/* --- スクロールアニメーション用のクラス ---
+ * JavaScriptのIntersection Observerと連携して動きます。
+ */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(30px); /* 最初は少し下にずらしておく */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-up.active {
+    opacity: 1;
+    transform: translateY(0); /* クラスが付いたら元の位置へ戻る */
+}
+
+/* --- スマホ対応 (レスポンシブデザイン) --- */
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    nav ul { gap: 15px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+}
+
+/* --- ローディングスピナー --- */
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--glass-border);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

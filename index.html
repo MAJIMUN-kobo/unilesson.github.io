@@ -1,83 +1,118 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="light">
+<html lang="ja" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Portfolio & Blog</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <title>Game Dev Portfolio & Tech Blog</title>
+    <!-- Google Fontsの読み込み: モダンでクリーンなフォント 'Outfit' と 'Inter' を使用 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
 </head>
 <body>
 
-    <header>
+    <!-- アニメーションする背景グラデーション要素 -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- グラスモーフィズムを適用した固定ヘッダー -->
+    <header class="glass-header">
         <div class="container header-inner">
-            <a href="#" class="logo">DevLog.io</a>
+            <a href="#" class="logo">GameDev<span class="text-accent">.log</span></a>
             <nav>
                 <ul>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><button class="theme-toggle" id="themeToggle">🌙 Dark</button></li>
+                    <li><a href="#portfolio">Games</a></li>
+                    <li><a href="#blog">Note Blogs</a></li>
+                    <!-- テーマ切り替えボタン -->
+                    <li><button class="theme-toggle" id="themeToggle">☀️ Light</button></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <!-- ヒーローセクション: ページトップで一番目立つ領域。スクロール表示アニメーション(reveal-up)を適用 -->
+    <section class="hero reveal-up">
         <div class="container">
-            <h1>Hello, I'm a Developer.</h1>
-            <p>ここに簡単な自己紹介や、自分が得意とする技術スタック（HTML, CSS, JavaScript, Node.js など）を記述します。</p>
+            <h1 class="hero-title">Create Games <br>& <span class="text-accent">Share Knowledge</span></h1>
+            <p class="hero-subtitle">Unity、Godot、Unreal Engineを用いたゲーム開発のポートフォリオと、<br>Noteで発信している技術勉強ノートのまとめサイトです。</p>
         </div>
     </section>
 
-    <section id="portfolio">
+    <!-- ポートフォリオ（ゲーム作品）セクション -->
+    <section id="portfolio" class="reveal-up">
         <div class="container">
-            <h2 class="section-title">Portfolios</h2>
+            <h2 class="section-title">Created Games</h2>
+            
+            <!-- 絞り込み（フィルター）ボタン -->
+            <div class="filter-wrapper" id="portfolioFilters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="unity">Unity</button>
+                <button class="filter-btn" data-filter="godot">Godot</button>
+            </div>
+
+            <!-- 作品一覧 -->
             <div class="portfolio-grid">
-                <div class="card">
+                <!-- Unityのゲームカード -->
+                <div class="card glass-card" data-category="unity">
+                    <!-- ゲームのサムネイル画像を入れるエリア（現在はプレースホルダー） -->
+                    <div class="card-image bg-unity">
+                        <span>Unity Game</span>
+                    </div>
                     <div class="card-content">
-                        <span class="card-tag">JavaScript</span>
-                        <h3>タスク管理アプリ</h3>
-                        <p>ローカルストレージを活用した、シンプルでドラッグ＆ドロップ対応のTodo管理ツールです。</p>
-                        <a href="#" class="card-link">View Project →</a>
+                        <span class="card-tag tag-unity">Unity</span>
+                        <h3>3Dサイバーアクションゲーム</h3>
+                        <p>C#を使用して制作したハイスピード3Dアクション。物理演算を用いた爽快な挙動が特徴です。</p>
+                        <a href="#" class="card-link">Play / View Demo <span class="arrow">→</span></a>
                     </div>
                 </div>
-                <div class="card">
+
+                <!-- Godotのゲームカード -->
+                <div class="card glass-card" data-category="godot">
+                    <div class="card-image bg-godot">
+                        <span>Godot Game</span>
+                    </div>
                     <div class="card-content">
-                        <span class="card-tag">HTML / CSS</span>
-                        <h3>模写コーディングサイト</h3>
-                        <p>レスポンシブデザインとCSS Gridの練習のために制作した、架空のコーポレートサイトです。</p>
-                        <a href="#" class="card-link">View Project →</a>
+                        <span class="card-tag tag-godot">Godot</span>
+                        <h3>2D拠点防衛パズル</h3>
+                        <p>Godot Engine (GDScript) で制作した軽量なタワーディフェンスパズルゲームです。</p>
+                        <a href="#" class="card-link">Play / View Demo <span class="arrow">→</span></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="blog">
+    <!-- Note記事セクション -->
+    <section id="blog" class="reveal-up">
         <div class="container">
-            <h2 class="section-title">Latest Articles</h2>
-            <div class="blog-list">
-                <article class="blog-item">
-                    <a href="#"><h3>JavaScriptの非同期処理（async/await）をマスターする</h3></a>
-                    <div class="blog-meta">
-                        <time datetime="2026-06-01">2026.06.01</time>
-                        <span>#JavaScript</span>
-                    </div>
-                </article>
-                <article class="blog-item">
-                    <a href="#"><h3>CSS Variables（カスタムプロパティ）を使った効率的なテーマ切り替え</h3></a>
-                    <div class="blog-meta">
-                        <time datetime="2026-05-20">2026.05.20</time>
-                        <span>#CSS</span>
-                    </div>
-                </article>
+            <div class="section-header">
+                <h2 class="section-title">Latest Notes</h2>
+                <p class="section-subtitle">※クリックすると外部サイト（Note）へ移動します</p>
+            </div>
+
+            <div class="filter-wrapper" id="blogFilters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="unity-cs">Unity / C#</button>
+                <button class="filter-btn" data-filter="ue">Unreal Engine</button>
+                <button class="filter-btn" data-filter="scratch">Scratch</button>
+            </div>
+
+            <div class="blog-list" id="blogContainer">
+                <!-- 記事取得中に表示するローディング表示 -->
+                <div class="loading-message" id="blogLoading">
+                    <div class="spinner"></div>
+                    <p>Noteから最新記事を読み込んでいます...</p>
+                </div>
+                <!-- ここにJavaScriptで取得した記事が自動で挿入されます -->
             </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Your Name. Powered by HTML/CSS/JS.</p>
+            <p>&copy; 2026 Your Name. Game Developer Portfolio.</p>
         </div>
     </footer>
 
