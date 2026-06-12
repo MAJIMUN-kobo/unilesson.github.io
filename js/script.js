@@ -6,16 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        if (currentTheme === 'light') {
-            html.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️ Light'; // 次に押すときはLightモードへ
-        } else {
-            html.setAttribute('data-theme', 'light');
-            themeToggle.textContent = '🌙 Dark'; // 次に押すときはDarkモードへ
-        }
-    });
+    // themeToggleが存在するページ（index.html等）だけ実行する
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ Light'; // 次に押すときはLightモードへ
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '🌙 Dark'; // 次に押すときはDarkモードへ
+            }
+        });
+    }
 
 
     /* =========================================================================
